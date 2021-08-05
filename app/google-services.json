@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "456221124895",
+    "project_id": "walhalla-adfc5",
+    "storage_bucket": "walhalla-adfc5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456221124895:android:dc854fdba21874df9a282a",
+        "android_client_info": {
+          "package_name": "de.walhalla.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "456221124895-jjhv97lsl2eckfoggqd7phj95s7u05ti.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXpqO1WpGL58lt21UZvLEeu-0dhHiIpAQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "456221124895-jjhv97lsl2eckfoggqd7phj95s7u05ti.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
