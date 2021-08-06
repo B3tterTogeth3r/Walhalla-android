@@ -3,6 +3,7 @@ package de.walhalla.app;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +28,7 @@ public class SplashActivity extends AppCompatActivity implements SplashInterface
     public static SplashInterface newDone;
 
     @Override
-    protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    protected void onCreate (@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         newDone = this;
         new App();
@@ -37,38 +38,34 @@ public class SplashActivity extends AppCompatActivity implements SplashInterface
      * @see <a href="https://firebase.google.com/docs/dynamic-links/android/receive">Firebase
      * Dynamic Links</a>
      */
-    private void dynamicLink() {
-        FirebaseDynamicLinks.getInstance()
-                .getDynamicLink(getIntent())
-                .addOnSuccessListener(pendingDynamicLinkData -> {
-                    try {
-                        Uri deepLink = pendingDynamicLinkData.getLink();
-                        if (deepLink != null) {
-                            // TODO Manage dynamic link
-                            Firebase.Crashlytics.log("Deep link found. Value is: " + deepLink);
-                        }
-                    } catch (Exception ignored) {
-                    }
-                })
-                .addOnFailureListener(this, e ->
-                        Firebase.Crashlytics.log(TAG + ":getDynamicLink:onFailure", e)
-                );
+    private void dynamicLink () {
+        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(pendingDynamicLinkData -> {
+            try {
+                Uri deepLink = pendingDynamicLinkData.getLink();
+                if (deepLink != null) {
+                    // TODO Manage dynamic link
+                    Firebase.Crashlytics.log("Deep link found. Value is: " + deepLink);
+                }
+            } catch (Exception ignored) {
+            }
+        }).addOnFailureListener(this, e -> Firebase.Crashlytics.log(TAG + ":getDynamicLink" +
+                ":onFailure", e));
     }
 
-    void goOn() {
+    void goOn () {
         // Go to start Activity after fetching dynamic links and intents from push messages
-        Intent startIntent = new Intent(this, StartActivity.class);
+        Intent startIntent = new Intent(this, MainActivity.class);
         startActivity(startIntent);
         finish();
     }
 
     @Override
-    public void appDone() {
-        new Firebase();
+    public void appDone () {
+        new Firebase(getApplicationContext());
     }
 
     @Override
-    public void firebaseDone() {
+    public void firebaseDone () {
         // fetch dynamic links and push message intents
         dynamicLink();
         goOn();

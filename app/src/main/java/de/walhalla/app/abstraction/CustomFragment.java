@@ -33,7 +33,7 @@ import de.walhalla.app.firebase.Firebase;
  * @since 1.0
  */
 public abstract class CustomFragment extends Fragment {
-    protected final String TAG = "CustomFragment";
+    private final String TAG = "CustomFragment";
     /**
      * A list to collect all realtime listeners into the firestore database.
      *
@@ -54,14 +54,14 @@ public abstract class CustomFragment extends Fragment {
      * <p>
      * called after new {@link #registration} got reset and the site can start
      */
-    public abstract void start();
+    public abstract void start ();
 
     /**
      * @implNote Don't call in the extending classes of this {@link CustomFragment}
      * @deprecated use abstract subclass
      */
     @Override
-    public void onAttach(@NonNull Context context) {
+    public void onAttach (@NonNull Context context) {
         super.onAttach(context);
     }
 
@@ -80,7 +80,9 @@ public abstract class CustomFragment extends Fragment {
      */
     @Nullable
     @Override
-    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public View onCreateView (@NonNull @NotNull LayoutInflater inflater,
+                              @Nullable @org.jetbrains.annotations.Nullable ViewGroup container,
+                              @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment, container, false);
         createView(view, inflater);
         return view;
@@ -95,7 +97,8 @@ public abstract class CustomFragment extends Fragment {
      * @deprecated use abstract {@link #viewCreated()} instead
      */
     @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onViewCreated (@NonNull @NotNull View view,
+                               @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated: running");
         try {
             toolbar = requireActivity().findViewById(R.id.toolbar);
@@ -114,7 +117,7 @@ public abstract class CustomFragment extends Fragment {
      * @deprecated use abstract {@link #start()} instead
      */
     @Override
-    public void onStart() {
+    public void onStart () {
         try {
             super.onStart();
             registration = new ArrayList<>();
@@ -124,7 +127,7 @@ public abstract class CustomFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
+    public void onResume () {
         super.onResume();
         try {
             toolbarContent();
@@ -137,7 +140,7 @@ public abstract class CustomFragment extends Fragment {
      * @deprecated use abstract {@link #stop()} instead
      */
     @Override
-    public void onStop() {
+    public void onStop () {
         super.onStop();
         try {
             for (ListenerRegistration reg : registration) {
@@ -145,7 +148,8 @@ public abstract class CustomFragment extends Fragment {
             }
             registration.clear();
         } catch (Exception e) {
-            Firebase.Crashlytics.log("Something went wrong while removing the snapshot listener", e);
+            Firebase.Crashlytics.log("Something went wrong while removing the snapshot listener",
+                    e);
         } finally {
             toolbar.getMenu().clear();
             toolbar.setTitle(R.string.app_name);
@@ -164,12 +168,13 @@ public abstract class CustomFragment extends Fragment {
      * @implNote <b>DON'T CALL FUNCTIONS THAT WORK WITH DATA OF {@link #start()} IN HERE</b>
      * @see #onViewCreated(View, Bundle)
      */
-    public abstract void createView(@NonNull @NotNull View view, @NonNull @NotNull LayoutInflater inflater);
+    public abstract void createView (@NonNull @NotNull View view,
+                                     @NonNull @NotNull LayoutInflater inflater);
 
     /**
      * @see #onViewCreated(View, Bundle)
      */
-    public abstract void viewCreated();
+    public abstract void viewCreated ();
 
     /**
      * Called before {@link #viewCreated() viewCreated} returns a result. This is to format the
@@ -177,7 +182,7 @@ public abstract class CustomFragment extends Fragment {
      *
      * @see #toolbar
      */
-    public abstract void toolbarContent();
+    public abstract void toolbarContent ();
 
     /**
      * Called when the Fragment is no longer started.  This is generally tied to {@link #onStop()
@@ -187,5 +192,7 @@ public abstract class CustomFragment extends Fragment {
      * cleared.
      * @see #onStop()
      */
-    public abstract void stop();
+    public abstract void stop ();
+
+
 }

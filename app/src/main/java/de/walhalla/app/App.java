@@ -3,8 +3,11 @@ package de.walhalla.app;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.appcompat.widget.Toolbar;
+
+import de.walhalla.app.firebase.Firebase;
 
 /**
  * Created by B3tterTogeth3r on 27.07.2021.
@@ -19,7 +22,8 @@ public class App extends Application {
     public App() {
         try {
             SplashActivity.newDone.appDone();
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            Firebase.Crashlytics.log(TAG + ": initializer error", e);
         }
     }
 

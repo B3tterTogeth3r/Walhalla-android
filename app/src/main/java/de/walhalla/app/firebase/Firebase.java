@@ -3,6 +3,8 @@ package de.walhalla.app.firebase;
 import static com.google.firebase.analytics.FirebaseAnalytics.UserProperty.ALLOW_AD_PERSONALIZATION_SIGNALS;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -23,6 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 
@@ -57,8 +61,8 @@ public class Firebase {
     private static FirebaseStorage STORAGE;
     private static FirebaseRemoteConfig REMOTE_CONFIG;
 
-    public Firebase() {
-        ANALYTICS = FirebaseAnalytics.getInstance(App.getContext());
+    public Firebase(@NonNull @NotNull Context ctx) {
+        ANALYTICS = FirebaseAnalytics.getInstance(ctx);
         AUTH = FirebaseAuth.getInstance();
         CRASHLYTICS = FirebaseCrashlytics.getInstance();
         REALTIME_DB = FirebaseDatabase.getInstance("https://walhalla-adfc5-default-rtdb.europe-west1.firebasedatabase.app/");
@@ -83,7 +87,8 @@ public class Firebase {
         }
         try {
             SplashActivity.newDone.firebaseDone();
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            Crashlytics.log("Firebase init crashed", e);
         }
     }
 
